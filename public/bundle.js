@@ -28541,18 +28541,19 @@
 /* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	var axios = __webpack_require__(255);
 
+	var PORT = process.env.PORT || 3001;
 	var CITY_NAMES_PREDICTION_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&language=pt_BR&key=AIzaSyD64nVQSEfh3gCP0GwKsgeLReHuXWK2iZ8';
-	var API_SERVER_URL = 'http://localhost:5001/getPrediction';
+	var API_SERVER_URL = 'http://localhost:3001/getPrediction';
 	module.exports = {
 	  getCityNames: function getCityNames(location) {
 	    console.log("location needs to search -" + location);
 	    var encodedLocation = encodeURIComponent(location);
 
-	    var requestUrl = API_SERVER_URL + '?location=' + encodedLocation;
+	    var requestUrl = 'http://localhost:' + PORT + '/getPrediction?location=' + encodedLocation;
 	    //var requestUrl = "http://localhost:5001/getPrediction?location=fremont";
 	    console.log("Url for calling the predictions-" + requestUrl);
 	    return axios.get(requestUrl).then(function (res) {
@@ -28564,6 +28565,7 @@
 	    });
 	  }
 	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
 /* 255 */

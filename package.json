@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "karma start",
-    "start": "node server.js & node api-server.js &"
+    "start": "node server.js"
   },
   "author": "Andrew Mead",
   "license": "MIT",
