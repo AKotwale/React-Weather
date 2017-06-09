@@ -1,5 +1,5 @@
 var express = require('express');
-var cors = require('cors');
+
 
 // Create our app
 var app = express();
@@ -8,7 +8,7 @@ const bodyParser = require('body-parser');
 var request = require('request');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+
 
 app.options("/*", function(req, res, next){
   console.log("option request tracking..");
@@ -20,14 +20,18 @@ app.options("/*", function(req, res, next){
 
 const PORT = process.env.PORT || 3001;
 
-// app.use(function(req,res,next){
-//   if( req.headers['x-forwarded-proto'] === "http") {
-//      next();
-//   } else if(){
-//     res.redirect('http://' + req.hostname +":"+req.port +  req.url);
-//   }
-//
-// });
+ app.use(function(req,res,next){
+  if( req.headers['x-forwarded-proto'] === "http") {
+      next();
+ } else {
+   if(! req.url.includes("getPrediction")){
+    res.redirect('http://' + req.hostname +":"+req.port +  req.url);
+  } {
+    next();
+  }
+  }
+
+});
 
 const CITY_NAMES_PREDICTION_URL ='https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&language=pt_BR&key=AIzaSyD64nVQSEfh3gCP0GwKsgeLReHuXWK2iZ8';
 //const OPEN_WEATHER_MAP_URL ='http://api.openweathermap.org/data/2.5/weather?appid=dd29edf892f7eeb908218144ac829590';
