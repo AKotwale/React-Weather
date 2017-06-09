@@ -9,7 +9,7 @@ module.exports = {
       var encodedLocation = encodeURIComponent(location);
 
 
-      var requestUrl = `http://localhost:${PORT}/getPrediction?location=${encodedLocation}`;
+      var requestUrl = `${CITY_NAMES_PREDICTION_URL}&input=${encodedLocation}`;
       //var requestUrl = "http://localhost:5001/getPrediction?location=fremont";
       console.log("Url for calling the predictions-" + requestUrl);
       return axios.get(requestUrl).then(function(res){
