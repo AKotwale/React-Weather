@@ -4,10 +4,9 @@ var express = require('express');
 // Create our app
 var app = express();
 app.use(express.static('public'));
-const bodyParser = require('body-parser');
 var request = require('request');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 
 app.options("/*", function(req, res, next){
