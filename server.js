@@ -23,10 +23,7 @@ const PORT = process.env.PORT || 3001;
   if( req.headers['x-forwarded-proto'] === "http") {
       next();
  } else {
-   if(! req.url.includes("getPrediction")){
-    res.redirect('http://' + req.hostname +":"+req.port +  req.url);
-  } {
-    next();
+    res.redirect('http://' + req.hostname +  req.url);
   }
   }
 
