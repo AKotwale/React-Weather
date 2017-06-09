@@ -2,7 +2,7 @@ var axios = require('axios');
 
 const PORT = process.env.PORT || 3001;
 const CITY_NAMES_PREDICTION_URL ='https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&language=pt_BR&key=AIzaSyD64nVQSEfh3gCP0GwKsgeLReHuXWK2iZ8';
-const API_SERVER_URL = 'http://localhost:3001/getPrediction';
+
 module.exports = {
     getCityNames : function(location) {
       console.log("location needs to search -" + location);
