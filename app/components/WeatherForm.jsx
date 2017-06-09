@@ -13,12 +13,14 @@ var WeatherForm = React.createClass({
           };
   },
    getSuggestionValue : function(suggestion) {
+
      console.log("Inside getSuggestionValue");
      var description = suggestion.description;
      if(description != null) {
-       description = description.substring(description.indexOf(", Estados"), description.lenght-1);
+        description = description.substring(description.indexOf(", Estados"), description.lenght-1);
      }
-     return description },
+      return description;
+  },
    getSuggestions : function(value) {
 
      console.log("Inside getSuggestions");
@@ -43,7 +45,7 @@ var WeatherForm = React.createClass({
       }
       return(
 
-            <span><input type="text" placeholder="type city name" ref="location" value={description}/></span>
+            <span>{description}</span>
           //suggestion
         );
     },
@@ -68,7 +70,8 @@ var WeatherForm = React.createClass({
         });
     },
     onChange: function(e) {
-       var location = e.target.value;
+       var location = e.target.value || e.target.textContent;
+       console.log("location selected by user !!");
        this.setState({
             value: location
        });

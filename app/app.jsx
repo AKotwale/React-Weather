@@ -7,6 +7,7 @@ var About = require('About');
 var Examples = require('Examples');
 //load foundation
 require('style!css!foundation-sites/dist/css/foundation.min.css');
+require('style!css!app/autosuggest.css');
 $(document).foundation();
 
 ReactDOM.render(
