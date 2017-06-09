@@ -22,11 +22,9 @@ const PORT = process.env.PORT || 3001;
  app.use(function(req,res,next){
   if( req.headers['x-forwarded-proto'] === "http") {
       next();
- } else {
+  } else {
     res.redirect('http://' + req.hostname +  req.url);
   }
-  }
-
 });
 
 const CITY_NAMES_PREDICTION_URL ='https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&language=pt_BR&key=AIzaSyD64nVQSEfh3gCP0GwKsgeLReHuXWK2iZ8';
