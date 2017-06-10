@@ -20,6 +20,12 @@ app.options("/*", function(req, res, next){
 const PORT = process.env.PORT || 3001;
 
  app.use(function(req,res,next){
+   if (process.env.HOST === undefined){
+             var host = req.headers.host.replace(/:\d+$/, '');
+             process.env.HOST     = host;
+             process.env.CUSTOM_CALLBACK_URI = '//' + host + '/callback';
+   }
+
   if( req.headers['x-forwarded-proto'] === "http") {
       next();
   } else {
