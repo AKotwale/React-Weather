@@ -3,7 +3,7 @@ var axios = require('axios');
 const PORT = process.env.PORT || 3001;
 const CITY_NAMES_PREDICTION_URL ='https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&language=pt_BR&key=AIzaSyD64nVQSEfh3gCP0GwKsgeLReHuXWK2iZ8';
 
-const HOST = process.env.HOST || localhost;
+const HOST = process.env.HOST || "localhost";
 
 module.exports = {
     getCityNames : function(location) {
