@@ -25684,7 +25684,7 @@
 	    onSuggestionsFetchRequested: function onSuggestionsFetchRequested(value) {
 	        var that = this;
 	        console.log("Inside onSuggestionsFetchRequested");
-	        jQuery.getJSON("//gd.geobytes.com/AutoCompleteCity?callback=?&filter=US&q=" + value.value, function (data) {
+	        jQuery.getJSON("http://gd.geobytes.com/AutoCompleteCity?callback=?&filter=US&q=" + value.value, function (data) {
 	            console.log(data);
 	            that.setState({
 	                suggestions: data

@@ -38,7 +38,7 @@ var WeatherForm = React.createClass({
       var that = this;
       console.log("Inside onSuggestionsFetchRequested");
       jQuery.getJSON(
-          "//gd.geobytes.com/AutoCompleteCity?callback=?&filter=US&q="+value.value,
+          "http://gd.geobytes.com/AutoCompleteCity?callback=?&filter=US&q="+value.value,
           function (data) {
             console.log(data);
             that.setState({
