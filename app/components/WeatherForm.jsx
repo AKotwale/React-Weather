@@ -1,6 +1,6 @@
 var React = require('react');
 var Autosuggest = require('react-autosuggest');
-var cityNamePrediction = require('cityNamePrediction');
+
 
 
 
@@ -13,56 +13,42 @@ var WeatherForm = React.createClass({
           };
   },
    getSuggestionValue : function(suggestion) {
-
-     console.log("Inside getSuggestionValue");
-     var description = suggestion.description;
-     if(description != null) {
-        description = description.substring(description.indexOf(", Estados"), description.lenght-1);
-     }
-      return description;
+     //
+    //  console.log("Inside getSuggestionValue");
+    //  var description = suggestion.description;
+    //  if(description != null) {
+    //     description = description.substring(description.indexOf(", Estados"), description.lenght-1);
+    //  }
+    //   return suggestion;
   },
    getSuggestions : function(value) {
 
      console.log("Inside getSuggestions");
       that = this;
       var suggestions;
-      cityNamePrediction.getCityNames(value).then( function(suggestions) {
-
-           that.suggestions = suggestions;
-
-      }, function(errorMessage) {
-        alert(errorMessage);
-      });
-
-
+      suggestions = cityNamePrediction.getCityNames(value);
       return suggestions;
     },
     renderSuggestion: function(suggestion) {
-
-      var description = suggestion.description;
-      if(description != null) {
-        description = description.substring(description.indexOf(", Estados"), description.lenght-1);
-      }
       return(
-
-            <span>{description}</span>
-          //suggestion
+            <span>{suggestion}</span>
         );
     },
     onSuggestionsFetchRequested : function(value) {
       var that = this;
       console.log("Inside onSuggestionsFetchRequested");
-      cityNamePrediction.getCityNames(value.value).then( function(suggestions) {
-        console.log("suggestion values got from the api-" + suggestions);
-        that.setState({
-           suggestions: suggestions
-        });
-      }, function(errorMessage) {
-         console.log("Error got while calling the webservice .." + errorMessage);
-      });
-
-
-
+      jQuery.getJSON(
+          "http://gd.geobytes.com/AutoCompleteCity?callback=?&filter=US&q="+value.value,
+          function (data) {
+            console.log(data);
+            that.setState({
+                 suggestions: data
+            });
+          }
+         );
+    },
+    shouldRenderSuggestions : function(value) {
+        return value.trim().length > 2;
     },
     onSuggestionsClearRequested : function() {
         this.setState({
@@ -103,6 +89,7 @@ var WeatherForm = React.createClass({
                      onSuggestionsClearRequested={this.onSuggestionsClearRequested}
                      getSuggestionValue={this.getSuggestionValue}
                      renderSuggestion={this.renderSuggestion}
+                     shouldRenderSuggestions = {this.shouldRenderSuggestions}
                      inputProps={inputProps}
                />
                <button className="hallow button expanded">Get Weather</button>

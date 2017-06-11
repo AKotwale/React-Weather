@@ -105,11 +105,11 @@
 
 	var Main = __webpack_require__(229);
 	var Weather = __webpack_require__(231);
-	var About = __webpack_require__(284);
-	var Examples = __webpack_require__(285);
+	var About = __webpack_require__(288);
+	var Examples = __webpack_require__(289);
 	//load foundation
-	__webpack_require__(286);
 	__webpack_require__(290);
+	__webpack_require__(294);
 	$(document).foundation();
 
 	ReactDOM.render(React.createElement(
@@ -25583,9 +25583,9 @@
 
 	var React = __webpack_require__(8);
 	var WeatherForm = __webpack_require__(232);
-	var WeatherMessage = __webpack_require__(281);
-	var openWeatherMap = __webpack_require__(282);
-	var UnitSelection = __webpack_require__(283);
+	var WeatherMessage = __webpack_require__(285);
+	var openWeatherMap = __webpack_require__(286);
+	var UnitSelection = __webpack_require__(287);
 
 	var Weather = React.createClass({
 	    displayName: 'Weather',
@@ -25642,11 +25642,10 @@
 /* 232 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(jQuery) {'use strict';
 
 	var React = __webpack_require__(8);
 	var Autosuggest = __webpack_require__(233);
-	var cityNamePrediction = __webpack_require__(254);
 
 	var WeatherForm = React.createClass({
 	    displayName: 'WeatherForm',
@@ -25659,53 +25658,41 @@
 	        };
 	    },
 	    getSuggestionValue: function getSuggestionValue(suggestion) {
-
-	        console.log("Inside getSuggestionValue");
-	        var description = suggestion.description;
-	        if (description != null) {
-	            description = description.substring(description.indexOf(", Estados"), description.lenght - 1);
-	        }
-	        return description;
+	        //
+	        //  console.log("Inside getSuggestionValue");
+	        //  var description = suggestion.description;
+	        //  if(description != null) {
+	        //     description = description.substring(description.indexOf(", Estados"), description.lenght-1);
+	        //  }
+	        //   return suggestion;
 	    },
 	    getSuggestions: function getSuggestions(value) {
 
 	        console.log("Inside getSuggestions");
 	        that = this;
 	        var suggestions;
-	        cityNamePrediction.getCityNames(value).then(function (suggestions) {
-
-	            that.suggestions = suggestions;
-	        }, function (errorMessage) {
-	            alert(errorMessage);
-	        });
-
+	        suggestions = cityNamePrediction.getCityNames(value);
 	        return suggestions;
 	    },
 	    renderSuggestion: function renderSuggestion(suggestion) {
-
-	        var description = suggestion.description;
-	        if (description != null) {
-	            description = description.substring(description.indexOf(", Estados"), description.lenght - 1);
-	        }
 	        return React.createElement(
 	            'span',
 	            null,
-	            description
-	        )
-	        //suggestion
-	        ;
+	            suggestion
+	        );
 	    },
 	    onSuggestionsFetchRequested: function onSuggestionsFetchRequested(value) {
 	        var that = this;
 	        console.log("Inside onSuggestionsFetchRequested");
-	        cityNamePrediction.getCityNames(value.value).then(function (suggestions) {
-	            console.log("suggestion values got from the api-" + suggestions);
+	        jQuery.getJSON("http://gd.geobytes.com/AutoCompleteCity?callback=?&filter=US&q=" + value.value, function (data) {
+	            console.log(data);
 	            that.setState({
-	                suggestions: suggestions
+	                suggestions: data
 	            });
-	        }, function (errorMessage) {
-	            console.log("Error got while calling the webservice .." + errorMessage);
 	        });
+	    },
+	    shouldRenderSuggestions: function shouldRenderSuggestions(value) {
+	        return value.trim().length > 2;
 	    },
 	    onSuggestionsClearRequested: function onSuggestionsClearRequested() {
 	        this.setState({
@@ -25754,6 +25741,7 @@
 	                        onSuggestionsClearRequested: this.onSuggestionsClearRequested,
 	                        getSuggestionValue: this.getSuggestionValue,
 	                        renderSuggestion: this.renderSuggestion,
+	                        shouldRenderSuggestions: this.shouldRenderSuggestions,
 	                        inputProps: inputProps
 	                    }),
 	                    React.createElement(
@@ -25768,6 +25756,7 @@
 	});
 
 	module.exports = WeatherForm;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 233 */
@@ -28538,37 +28527,7 @@
 	};
 
 /***/ }),
-/* 254 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
-
-	var axios = __webpack_require__(255);
-
-	var PORT = process.env.PORT || 3001;
-	var CITY_NAMES_PREDICTION_URL = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?types=(cities)&language=pt_BR&key=AIzaSyD64nVQSEfh3gCP0GwKsgeLReHuXWK2iZ8';
-
-	var HOST = process.env.HOST || "localhost";
-
-	module.exports = {
-	  getCityNames: function getCityNames(location) {
-	    console.log("location needs to search -" + location);
-	    var encodedLocation = encodeURIComponent(location);
-	    //var requestUrl = `${CITY_NAMES_PREDICTION_URL}&input=${encodedLocation}`;
-	    var requestUrl = 'https://' + HOST + ':' + PORT + '/getPrediction?location=' + encodedLocation;
-	    console.log("Url for calling the predictions-" + requestUrl);
-	    return axios.get(requestUrl).then(function (res) {
-	      console.log("got predictions " + res.data.predictions);
-	      return res.data.predictions;
-	    }, function (res) {
-	      console.log("got error." + res);
-	      throw new Error(res);
-	    });
-	  }
-	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
-
-/***/ }),
+/* 254 */,
 /* 255 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -30098,7 +30057,11 @@
 
 
 /***/ }),
-/* 281 */
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30144,7 +30107,7 @@
 	module.exports = WeatherMessage;
 
 /***/ }),
-/* 282 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30171,7 +30134,7 @@
 	};
 
 /***/ }),
-/* 283 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30225,7 +30188,7 @@
 	module.exports = UnitSelection;
 
 /***/ }),
-/* 284 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30247,7 +30210,7 @@
 	module.exports = About;
 
 /***/ }),
-/* 285 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30269,16 +30232,16 @@
 	module.exports = Examples;
 
 /***/ }),
-/* 286 */
+/* 290 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(287);
+	var content = __webpack_require__(291);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(289)(content, {});
+	var update = __webpack_require__(293)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -30295,10 +30258,10 @@
 	}
 
 /***/ }),
-/* 287 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(288)();
+	exports = module.exports = __webpack_require__(292)();
 	// imports
 
 
@@ -30309,7 +30272,7 @@
 
 
 /***/ }),
-/* 288 */
+/* 292 */
 /***/ (function(module, exports) {
 
 	/*
@@ -30365,7 +30328,7 @@
 
 
 /***/ }),
-/* 289 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -30617,16 +30580,16 @@
 
 
 /***/ }),
-/* 290 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(291);
+	var content = __webpack_require__(295);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(289)(content, {});
+	var update = __webpack_require__(293)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -30643,10 +30606,10 @@
 	}
 
 /***/ }),
-/* 291 */
+/* 295 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(288)();
+	exports = module.exports = __webpack_require__(292)();
 	// imports
 
 
