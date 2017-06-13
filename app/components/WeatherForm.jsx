@@ -1,6 +1,6 @@
 var React = require('react');
 var Autosuggest = require('react-autosuggest');
-
+var JSONP = require('jsonp');
 
 
 
@@ -37,15 +37,12 @@ var WeatherForm = React.createClass({
     onSuggestionsFetchRequested : function(value) {
       var that = this;
       console.log("Inside onSuggestionsFetchRequested");
-      jQuery.getJSON(
-          "http://gd.geobytes.com/AutoCompleteCity?callback=?&filter=US&q="+value.value,
-          function (data) {
-            console.log(data);
-            that.setState({
-                 suggestions: data
-            });
-          }
-         );
+       JSONP("http://gd.geobytes.com/AutoCompleteCity?filter=US&q="+value.value,null, function(err, data) {
+                that.setState({
+                     suggestions: data
+                });
+       });
+
     },
     shouldRenderSuggestions : function(value) {
         return value.trim().length > 2;
