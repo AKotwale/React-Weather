@@ -1,0 +1,5 @@
+Added new file to test the commit history.
+
+Added new text to the file.
+
+Added new text again.
